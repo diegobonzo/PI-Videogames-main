@@ -7,7 +7,7 @@ const generoRoute = require("./generoRoute");
 
 const router = Router();
 
-router.use("/videogame", videogameRoute);
-router.use("/genero", generoRoute);
+router.use("/videogames", videogameRoute);
+router.use("/generos", generoRoute);
 
 module.exports = router;

@@ -1,22 +1,82 @@
 const { Router } = require('express');
-
+const { Videogame, Genero } = require("../db");
+const { getApi, getDbInfo, getAllVideogame, updateGame } = require("./controllersVideogame");
+const axios = require("axios");
 const router = Router();
 
 
-router.get("/", async (req,res,next) => {
 
+
+router.get('/', async (req , res, next) =>{
+	try{
+        let { name } = req.query;
+        let total = await getAllVideogame();        
+        if(name){
+            let videogameName = await total.filter(
+                (el) => el.name.toLowerCase().includes(name.toLowerCase()))
+                videogameName.length ?
+                res.status(200).send(videogameName) 
+                : res.status(400).send("Not Found")
+            }else{                
+                res.status(200).send(total)
+            }
+	} catch(error){
+		next(error);
+	}
 });
 
-router.get("/", async (req,res,next) => {
-    
+
+router.get("/:id", async (req,res,next) =>{
+    let { id } = req.params;
+    let total = await getAllVideogame();
+    if(id){ 
+        let gameId = await total.filter(el=>el.id == id);
+        gameId.length ?
+        res.status(200).send(gameId) :
+        res.status(404).send("No se encontro el juego");
+    }else{
+        res.send(total);
+    }
 });
 
-router.get("/", async (req,res,next) => {
 
-});
+
+
+// })
 
 router.post("/", async (req,res,next) => {
+        let { name,image,description,released,rating,platforms,createdInDb,generos } = req.body;
 
+        let newGame = await Videogame.create({
+            name,image,description,released,rating,platforms,createdInDb
+        });    
+        let genreDb = await Genero.findAll({ where: { name: generos } })
+        newGame.addGenero(genreDb);
+        console.log(newGame);
+        res.status(200).send("El juego se creo con exito");    
+});
+
+// router.put("/", async (req,res,next) => {
+//     let { id,name,image,released,rating,description,generos,platforms } = req.body;
+//     if( !name || !image || !released || !rating || !description || !generos || !platforms){
+//         return res.status(400).send({error:"Missing info"});
+//     }else{
+//         let juegoModificado = await updateGame(name,image,released,rating,description,generos,platforms);
+    
+//         if(juegoModificado.error) return res.status(400).send(juegoModificado);
+//         return res.status(200).send(juegoModificado);
+//     }
+// }); 
+
+router.delete("/", async (req,res,next) => {
+    try {
+        let { id } = req.body;
+        let game = await Videogame.findByPk(id);
+       await game.destroy();
+       res.status(200).send("Videogame delete");
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
 });
 
 module.exports = router;
