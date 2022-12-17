@@ -56,17 +56,23 @@ router.post("/", async (req,res,next) => {
         res.status(200).send("El juego se creo con exito");    
 });
 
-// router.put("/", async (req,res,next) => {
-//     let { id,name,image,released,rating,description,generos,platforms } = req.body;
-//     if( !name || !image || !released || !rating || !description || !generos || !platforms){
-//         return res.status(400).send({error:"Missing info"});
-//     }else{
-//         let juegoModificado = await updateGame(name,image,released,rating,description,generos,platforms);
-    
-//         if(juegoModificado.error) return res.status(400).send(juegoModificado);
-//         return res.status(200).send(juegoModificado);
-//     }
-// }); 
+router.put("/", async (req,res,next) => {
+    try {
+        let { id,name,image,released,rating,description,generos,platforms } = req.body;
+        if( !name || !image || !released || !rating || !description || !generos || !platforms){
+            return res.status(400).send({error:"Missing info"});
+        }else{
+            let juegoModificado = await updateGame({id,name,image,released,rating,description,generos,platforms});
+        
+            return res.status(200).send(juegoModificado);
+        }
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(400).send("Error");
+        
+    }
+}); 
 
 router.delete("/", async (req,res,next) => {
     try {

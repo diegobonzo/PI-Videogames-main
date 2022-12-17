@@ -81,25 +81,25 @@ const getAllVideogame = async () => {
     return infoTotal;
 };
 
-// const updateGame = async (id,name,image,released,rating,description,generos,platforms) => {
-//     let game = await Videogame.findByPk(id);
-//     if(!game) return {error:"Game not found"};
+const updateGame = async ({id,name,image,released,rating,description,generos,platforms}) => {
+    let game = await Videogame.findByPk(id);
+    if(!game) return {error:"Game not found"};
 
     
-//     game.name = name;
-//     game.image = image;
-//     game.released = released;
-//     game.rating = rating;
-//     game.description = description;
-//     game.generos = generos;
-//     game.platforms = platforms;
-//     return game;
-// };
+    game.name = name;
+    game.image = image;
+    game.released = released;
+    game.rating = rating;
+    game.description = description;
+    game.generos = generos;
+    game.platforms = platforms;
+    return game;
+};
 
 
 module.exports = {
     getApi,
     getDbInfo,
     getAllVideogame,
-    // updateGame
+    updateGame
 };

@@ -1,12 +1,16 @@
 const { Router } = require('express');
 const { default: axios } = require('axios');
 const { Genero } = require("../db");
-
 const router = Router();
 
+require('dotenv').config();
+const { API_KEY }= process.env;
+
+const API_URL = "https://api.rawg.io/api/genres";
+
+
 router.get("/", async (req,res,next) => {
-    const genresApi = await axios(
-        `https://api.rawg.io/api/genres?key=18b124ecd74e4fdc9014a658956a8886`,{headers: {
+    const genresApi = await axios(`${API_URL}?key=${API_KEY}`,{headers: {
             "accept-encoding": null //me traigo de la api los generos, el header es por la actualizacion del axios
         }})
     const genres = genresApi.data.results.map(el => el.name);
