@@ -23,3 +23,25 @@ export function getGenres(){
     }
 }
 
+
+export function filterGamesByGenres(payload){
+    return{
+        type: 'FILTER_BY_GENRES',
+        payload
+    }
+}
+
+export function orderByName(payload){
+    return{
+        type: 'ORDER_BY_NAME',
+        payload
+    }
+}
+
+export function filterCreated(payload){
+    return{
+        type: 'FILTER_CREATED',
+        payload
+    }
+    
+}
