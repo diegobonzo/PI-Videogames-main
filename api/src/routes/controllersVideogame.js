@@ -51,12 +51,11 @@ const getApi = async () => {
       rating: el.rating,
       description: data.data.description,
       genres: el.genres.map((el) => el.name),
-      platforms: el.platforms.map((el) => el.platform.name),
+      platforms: el.platforms.map((el) => el.platform.name),      
     };
   });
-
   // Esperamos a que todos los procesos se completen y devolvemos la información final
-  const finalData = await Promise.all(apiInfo).then((data) => data);
+  const finalData = await Promise.all(apiInfo).then((data) => data);  
   return finalData;
 };
 

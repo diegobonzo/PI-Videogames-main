@@ -10,14 +10,16 @@ const router = Router();
 router.get('/', async (req , res, next) =>{
 	try{
         let { name } = req.query;
-        let total = await getAllVideogame();        
+        let total = await getAllVideogame();   
+        // console.log(total);     
         if(name){
             let videogameName = await total.filter(
                 (el) => el.name.toLowerCase().includes(name.toLowerCase()))
                 videogameName.length ?
                 res.status(200).send(videogameName) 
                 : res.status(400).send("Not Found")
-            }else{                
+            }else{                                
+                
                 res.status(200).send(total)
             }
 	} catch(error){
@@ -42,7 +44,7 @@ router.get("/:id", async (req,res,next) =>{
 
 
 
-// })
+
 
 router.post("/", async (req,res,next) => {
         let { name,image,description,released,rating,platforms,createdInDb,generos } = req.body;
@@ -51,8 +53,7 @@ router.post("/", async (req,res,next) => {
             name,image,description,released,rating,platforms,createdInDb
         });    
         let genreDb = await Genero.findAll({ where: { name: generos } })
-        newGame.addGenero(genreDb);
-        console.log(newGame);
+        newGame.addGenero(genreDb);        
         res.status(200).send("El juego se creo con exito");    
 });
 
@@ -74,9 +75,9 @@ router.put("/", async (req,res,next) => {
     }
 }); 
 
-router.delete("/", async (req,res,next) => {
+router.delete("/:id", async (req,res,next) => {
     try {
-        let { id } = req.body;
+        let { id } = req.params;
         let game = await Videogame.findByPk(id);
        await game.destroy();
        res.status(200).send("Videogame delete");

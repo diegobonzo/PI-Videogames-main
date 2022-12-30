@@ -14,8 +14,7 @@ router.get("/", async (req,res,next) => {
             "accept-encoding": null //me traigo de la api los generos, el header es por la actualizacion del axios
         }})
     const genres = genresApi.data.results.map(el => el.name);
-    genres.forEach(el => {
-        console.log(el);
+    genres.forEach(el => {        
         Genero.findOrCreate({//me creo en la db los generos que no existen
             where: {name: el}
         });
