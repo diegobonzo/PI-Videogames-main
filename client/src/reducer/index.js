@@ -2,6 +2,8 @@
 const initialState = {
     videogames: [],    
     allVideogames: [],    
+    platforms: [],
+    detail: [],
     genres: []
 }
 
@@ -15,18 +17,30 @@ function rootReducer(state = initialState, action){
                 videogames: action.payload,    
                 allVideogames: action.payload            
             }
+        case 'GET_NAME_GAMES':
+            return{
+                ...state,
+                videogames: action.payload
+            }   
         case 'GET_GENRES':
             return{
                 ...state,
                 genres: action.payload
             }    
+        case 'POST_VIDEOGAMES':
+            return{
+                ...state,
+            }    
         case 'FILTER_BY_GENRES':
             const generos = state.allVideogames;
-            const genresFiltered = generos.filter(el => el.genres.name === action.payload);
+            const genresFiltered = action.payload === 'todos' ? generos : generos.filter(el => el.genres.name === action.payload);
+            // const genresFiltered = action.payload === 'todos' ? generos : generos.map(el=>{
+            //     return el.genres.filter(el=> el.name === action.payload)
+            // });
             return{
                 ...state,
                 videogames: genresFiltered,
-            }    
+            }            
         case 'ORDER_BY_NAME':
             const sortName = action.payload === 'asc'?
             state.videogames.sort(function(a,b){
@@ -45,6 +59,7 @@ function rootReducer(state = initialState, action){
             if(b.name > a.name){
                 return 1;
             }
+            return 0;
         })
             return{
                 ...state,
@@ -59,6 +74,20 @@ function rootReducer(state = initialState, action){
             return{
                 ...state,
                 videogames: action.payload === 'all' ? state.allVideogames : createdFilter
+            }
+        case 'GET_PLATFORMS':
+            const consolas = state.allVideogames
+            const plat = consolas.map(el=>el.platforms)
+            const todasConsolas = [...new Set(plat.flat())];
+            const arrayObjetos = todasConsolas.map(el => ({name:el}))
+            return{
+                ...state,
+                platforms: arrayObjetos
+            }
+        case 'GET_DETAILS':
+            return{
+                ...state,
+                detail: action.payload
             }
 
         default:

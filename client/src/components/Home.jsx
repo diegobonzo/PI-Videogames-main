@@ -5,6 +5,7 @@ import { getVideogames, getGenres, filterGamesByGenres, orderByName, filterCreat
 import { Link } from 'react-router-dom';
 import Card from './Card';
 import Paginado from './Paginado';
+import SearchBar from './SearchBar';
 
 
 
@@ -35,13 +36,14 @@ export default function Home(){
         dispatch(getVideogames())// estos es lo mismo que hacer mapDispatchToProps
         dispatch(getGenres())
     },[dispatch])
+    
 
     function handleClick(e){
         e.preventDefault();//esto es para que no se recargue la pagina
         dispatch(getVideogames());
     }
 
-    const options = allGenres.map(el => (
+    let options = allGenres.map(el => (
         <option key={el.id} value={el.name} >
            {el.name}
         </option>
@@ -61,6 +63,7 @@ export default function Home(){
     function handleFilterCreated(e){
         dispatch(filterCreated(e.target.value))
     }
+    
 
     return(
         <div>
@@ -80,19 +83,21 @@ export default function Home(){
                     <option value="created">Creados</option>
                 </select>
                 <select onChange={e => handleFliterByGenre(e)}> 
-                     {options}
-                </select>
+                <option value="todos">Todos</option>
+                 {options}
+               </select>
                 <Paginado  
                     gamesForPage = {gamesForPage}
                     allVideogames = {allVideogames.length}
                     paginado = {paginado}
-                />                
+                />  
+                <SearchBar />              
                 {
                     currentGames && currentGames.map(el=>{
                         return(
-                            <Fragment className='cartas'>
-                                <Link to={"/home" + el.id}>
-                                    <Card name={el.name} genre={el.genre} image={el.image} key={el.id} />
+                            <Fragment>
+                                <Link to={"/home" + el.id} className='cartas'>
+                                    <Card name={el.name} genres={el.genres} image={el.image} key={el.id} />
                                 </Link>
                             </Fragment>
                         )
@@ -102,3 +107,106 @@ export default function Home(){
         </div>
     )
 }
+
+
+// import React, { Fragment, useState, useEffect } from 'react';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { getVideogames, getGenres, filterGamesByGenres, orderByName, filterCreated } from '../actions';
+// import { Link } from 'react-router-dom';
+// import Card from './Card';
+// import Paginado from './Paginado';
+// import SearchBar from './SearchBar';
+
+// export default function Home() {
+//   const dispatch = useDispatch();
+//   const allVideogames = useSelector(state => state.videogames);
+//   const allGenres = useSelector(state => state.genres);
+//   console.log(allGenres);
+
+//   //estados locales y constantes para paginado
+//   const [orden, setOrden] = useState('');
+//   const [currentPage, setCurrentPage] = useState(1);
+//   const [gamesForPage, setgamesForPage] = useState(15);
+
+//   // Inicializo selectedGenre con un string vacío
+//   const [selectedGenre, setSelectedGenre] = useState('');
+
+//   const indexOfLastGame = currentPage * gamesForPage;
+//   const indexOfFirstGame = indexOfLastGame - gamesForPage;
+//   const currentGames = allVideogames.slice(indexOfFirstGame, indexOfLastGame);
+
+//   const paginado = pageNumber => {
+//     setCurrentPage(pageNumber);
+//   };
+
+//   useEffect(() => {
+//     dispatch(getVideogames());
+//     dispatch(getGenres());
+//   }, [dispatch]);
+
+//   function handleClick(e) {
+//     e.preventDefault();
+//     dispatch(getVideogames());
+//   }
+
+//   const options = allGenres.map(el => (
+//     <option key={el.id} value={el.name}>
+//     {el.name}
+//     </option>
+//     ));
+    
+//     function handleFilterByGenre(e) {
+//     // Almaceno el valor seleccionado en selectedGenre
+//     setSelectedGenre(e.target.value);
+//     }
+    
+//     function handleOrderByName(e) {
+//     e.preventDefault();
+//     dispatch(orderByName(e.target.value));
+//     setCurrentPage(1);
+//     setOrden(e.target.value);
+//     }
+    
+//     function handleFilterCreated(e) {
+//     dispatch(filterCreated(e.target.value));
+//     }
+    
+//     // Filtro los juegos por el género seleccionado
+//     const filteredGames = allVideogames.filter(game => game.genre === selectedGenre);
+    
+//     return (
+
+//         <div>
+//           <Link to="/videogames">Crear Videgame</Link>
+//           <h1>Los mejores Videogames</h1>
+//           <button onClick={e => handleClick(e)}>Volver a cargar todos los videojuegos</button>
+//           <div>
+//             <select onChange={e => handleOrderByName(e)}>
+//               <option value="asc">Ascendente</option>
+//               <option value="des">Descendente</option>
+//             </select>
+//             <select onChange={e => handleFilterCreated(e)}>
+//               <option value="all">Todos</option>
+//               <option value="api">Existentes</option>
+//               <option value="db">Creados</option>
+//             </select>
+//             <select onChange={e => handleFilterByGenre(e)}>
+//               <option value="">Todos</option>
+//               {options}
+//             </select>
+//           </div>
+//           <SearchBar />
+//           <Paginado
+//             currentPage={currentPage}
+//             gamesForPage={gamesForPage}
+//             totalGames={filteredGames.length}
+//             paginado={paginado}
+//           />
+//           {filteredGames
+//             .slice(indexOfFirstGame, indexOfLastGame)
+//             .map(el => (
+//               <Card key={el.id} videogame={el} />
+//             ))}
+//         </div>
+//       );
+//       }
