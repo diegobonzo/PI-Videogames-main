@@ -44,14 +44,14 @@ const getApi = async () => {
 
     // Devolvemos la información del videojuego en un objeto
     return {
-      id: el.id,
-      name: el.name,
-      image: el.background_image,
-      released: el.released,
-      rating: el.rating,
-      description: data.data.description,
-      genres: el.genres.map((el) => el.name),
-      platforms: el.platforms.map((el) => el.platform.name),      
+      id: data.data.id,
+      name: data.data.name,
+      image: data.data.background_image,
+      released: data.data.released,
+      rating: data.data.rating,
+      description: data.data.description_raw,
+      genres: data.data.genres.map((el) => el.name),
+      platforms: data.data.platforms.map((el) => el.platform.name),      
     };
   });
   // Esperamos a que todos los procesos se completen y devolvemos la información final
