@@ -1,4 +1,12 @@
 import React from 'react';
+import styled from 'styled-components';
+
+const Boton = styled.button`
+margin: 3px;
+`
+
+
+
 
 export default function Paginado({gamesForPage, allVideogames, paginado}){
     const pageNumbers  = []; 
@@ -9,9 +17,9 @@ export default function Paginado({gamesForPage, allVideogames, paginado}){
         <nav>
             <ul className='paginado'>
                 {pageNumbers && pageNumbers.map(number => (
-                    <button className='number' key={number} onClick={() => paginado(number)}>
+                    <Boton className='number' key={number} onClick={() => paginado(number)}>
                         {number}
-                    </button>
+                    </Boton>
                 ))}
             </ul>
         </nav>

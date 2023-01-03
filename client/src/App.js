@@ -16,8 +16,9 @@ function App() {
         <Switch>
           <Route exact path = '/' component={ LandingPage } />
           <Route path = '/home' component={ Home } />
-          <Route path='/videogames' component={ GameCreate } />
-          <Route path='/home/:id' component={ Detail } />
+          <Route path='/create' component={ GameCreate } />
+          {/* <Route path='/videogames/:id' component={ Detail } /> */}
+          <Route exact path='/videogames/:id'  render={({ match }) => < Detail id={match.params.id} />} />
         </Switch>
       </div>
     </BrowserRouter>

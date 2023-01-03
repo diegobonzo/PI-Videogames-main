@@ -2,6 +2,7 @@ import React, {useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { postVideogame, getGenres, getPlatforms } from '../actions';
+import styled from 'styled-components';
 
 
 
@@ -119,15 +120,118 @@ export default function GameCreate(){
         dispatch(getGenres())
         dispatch(getPlatforms())
     },[dispatch])
+    
+    const Div = styled.div`
+    background-image: url('https://phantom-marca.unidadeditorial.es/6b007990c0576611bde79027ad46cb99/crop/0x0/1916x1078/resize/1320/f/jpg/assets/multimedia/imagenes/2022/03/23/16480261016982.jpg');
+    background-size: cover;
+    height: 100vh;
+    background-position: center;
+      
+    `
+    const Titulo = styled.h1`
+    font-size: 45px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #1b652c;
+    `
+
+    const Boton = styled.button`
+    box-shadow: 20 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #eeb56a;
+    border-radius: 12px;
+    width: 75px;
+    `
+    const Form = styled.form`
+    background-color: rgba(255, 0, 0, 0.5);
+    opacity: 0.5;
+    text-align: left;
+    float: left;
+    display: block;
+    width: 100%;
+    `
+    const Input1 = styled.div`
+    float: left;
+    display: block;
+    width: 100%;
+    margin-bottom: 5px;
+    `
+    const Input2 = styled.div`
+    float: left;
+    display: block;
+    width: 100%;
+    margin-bottom: 5px;
+    `
+    const Input3 = styled.div`
+    float: left;
+    display: block;
+    width: 100%;
+    margin-bottom: 5px;
+    `
+    const Input4 = styled.div`
+    float: left;
+    display: block;
+    width: 100%;
+    margin-bottom: 5px;
+    `
+    const Input5 = styled.div`
+    float: left;
+    display: block;
+    width: 100%;
+    margin-bottom: 5px;
+    `
+    const Input6 = styled.div`
+    float: left;
+    display: block;
+    width: 100%;
+    margin-bottom: 5px;
+    `
+    const Nombre = styled.label`  
+    color  : white ;
+    font-size: 28px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    `
+    const Imagen = styled.label`    
+    color  : white ;
+    font-size: 28px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    `
+
+    const Descripcion = styled.label` 
+    color  : white ;
+    font-size: 28px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    `
+
+    const Released = styled.label`    
+    color  : white ;
+    font-size: 28px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    `
+
+    const Rating = styled.label`    
+    color  : white ;
+    font-size:28px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    `
+
+    const Plataforma = styled.label`    
+    color  : white ;
+    font-size: 28px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;    
+    `
+    const Generos = styled.label`    
+    color  : white ;
+    font-size: 28px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;    
+    `
 
 
     return(
-        <div>
-            <Link to='/home'><button>Volver</button></Link>
-            <h1>Crea tu juego!!</h1>
-            <form onSubmit={(e) => handleSubmit(e)}>
-                <div>
-                    <label>Nombre:</label>
+        <Div>
+            <Titulo>Crea tu propio juego!!!</Titulo>
+            <Link to='/home'><Boton>Volver</Boton></Link>
+            <Form onSubmit={(e) => handleSubmit(e)}>
+                <Input1>
+                    <Nombre>Nombre:</Nombre>
                     <input 
                     type="text"
                     value={input.name}
@@ -137,9 +241,9 @@ export default function GameCreate(){
                     {errors.name && (
                         <p className='error'>{errors.name}</p>
                     )}
-                </div>
-                <div>
-                    <label>Imagen:</label>
+                </Input1>
+                <Input2>
+                    <Imagen>Imagen:</Imagen>
                     <input 
                     type="text" 
                     value={input.image}
@@ -149,9 +253,9 @@ export default function GameCreate(){
                     {errors.image && (
                         <p className='error'>{errors.image}</p>
                     )}
-                </div>
-                <div>
-                    <label>Description:</label>
+                </Input2>
+                <Input3>
+                    <Descripcion>Description:</Descripcion>
                     <input 
                     type="text"
                     value={input.description}
@@ -161,9 +265,9 @@ export default function GameCreate(){
                      {errors.description && (
                         <p className='error'>{errors.description}</p>
                     )}
-                </div>
-                <div>
-                    <label>Released:</label>
+                </Input3>
+                <Input4>
+                    <Released>Released:</Released>
                     <input
                      type="text"
                      value={input.released}
@@ -173,9 +277,9 @@ export default function GameCreate(){
                       {errors.released && (
                         <p className='error'>{errors.released}</p>
                     )}
-                </div>
-                <div>
-                    <label>Rating:</label>
+                </Input4>
+                <Input5>
+                    <Rating>Rating:</Rating>
                     <input
                      type="number"
                      value={input.rating}
@@ -185,9 +289,9 @@ export default function GameCreate(){
                       {errors.rating && (
                         <p className='error'>{errors.rating}</p>
                     )}
-                </div>
-                <div>
-                    <label>Platforms:</label>
+                </Input5>
+                <Input6>
+                    <Plataforma>Platforms:</Plataforma>
                     <input 
                     type="text"
                     value={input.platforms}
@@ -197,14 +301,14 @@ export default function GameCreate(){
                      {errors.platforms && (
                         <p className='error'>{errors.platforms}</p>
                     )}
-                </div>            
+                </Input6>            
                 <select onChange={e => handleSelectPlatform(e)}>
                         {consolas.map((c) => (
                             <option value={c.name}>{c.name}</option>
                         ))}                        
                 </select>    
                 <div>
-                    <label>Generos:</label>
+                    <Generos>Generos:</Generos>
                     <input
                      type="text"
                      value={input.generos}
@@ -222,7 +326,7 @@ export default function GameCreate(){
                 </select>
                 
                 <button type="submit">Crear Juego</button>
-            </form>
+            </Form>
             {input.platforms.map(el =>
                 <div className='divplatforms'>
                     <p>{el}</p>
@@ -235,7 +339,7 @@ export default function GameCreate(){
                     <button className='botnX' onClick={() => handleDelete(el)}>x</button>
                 </div>
                 )}
-        </div>       
+        </Div>       
 
     )
 }
