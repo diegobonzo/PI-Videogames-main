@@ -41,7 +41,7 @@ export function postVideogame(payload){
     return async function(dispatch){
         let json = await axios.post("http://localhost:3001/videogames", payload);
         console.log(json);
-        return json;
+        return json.data;
     }
 }
 
@@ -65,8 +65,7 @@ export function filterCreated(payload){
     return{
         type: 'FILTER_CREATED',
         payload
-    }
-    
+    }    
 }
 
 export function getPlatforms(payload){

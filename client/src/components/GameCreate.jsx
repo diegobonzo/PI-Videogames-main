@@ -21,112 +21,18 @@ function validate(input){
         errors.rating = "Se requiere un rating";
     }else if(!input.platforms){
         errors.platforms = "Se requiere plataforma";
-    }else if(!input.generos){
-        errors.generos = "Se requiere genero";
+    }else if(!input.genres){
+        errors.genres = "Se requiere genero";
     }
     return errors;
 }
 
-
-export default function GameCreate(){
-    const dispatch = useDispatch()
-    const history = useHistory();
-    const generos = useSelector((state) => state.genres);
-    const consolas = useSelector((state) => state.platforms);
-    const [errors, setErrors] = useState({});
-
-    const [input, setInput] = useState({
-        name:"",
-        image:"",
-        description:"",
-        released:"",
-        rating:"",
-        platforms:[],        
-        generos:[]
-    })
-
-
-    const handleChange = (e) =>{
-        setInput({
-            ...input,
-            [e.target.name] : e.target.value
-        })
-        setErrors(validate({
-            ...input,
-            [e.target.name]: e.target.value
-        }))
-        console.log(input);
-    }
-
-    // function handleCheck(e){
-    //     if(e.target.cheked){
-    //         setInput({
-    //             ...input,
-    //             platforms: e.target.value
-    //         })
-    //     }
-    // }
-
-    
-
-
-    const handleSelect =(e)=>{
-        setInput({
-            ...input,
-            generos: [...input.generos, e.target.value]
-        })
-    }
-
-    const handleSelectPlatform = (e) =>{
-        setInput({
-            ...input,
-            platforms: [...input.platforms, e.target.value]
-        })
-    }
-
-    const handleSubmit = (e) =>{
-        e.preventDefault();
-        console.log(input);
-        dispatch(postVideogame(input))
-        alert("Juego Creado!!");
-        setInput({
-            name:"",
-            image:"",
-            description:"",
-            released:"",
-            rating:"",
-            platforms:[],            
-            generos:[]        
-        })
-        history.push('/home');
-    }
-
-    function handleDelete(el){
-        setInput({
-            ...input,
-            generos: input.generos.filter(g => g !== el)
-        })
-    }
-    function handleDeletePLatforms(el){
-        setInput({
-            ...input,
-            platforms: input.platforms.filter(g => g !== el)
-        })
-    }
-
-
-
-    useEffect(() => {
-        dispatch(getGenres())
-        dispatch(getPlatforms())
-    },[dispatch])
-    
-    const Div = styled.div`
+const Div = styled.div`
     background-image: url('https://phantom-marca.unidadeditorial.es/6b007990c0576611bde79027ad46cb99/crop/0x0/1916x1078/resize/1320/f/jpg/assets/multimedia/imagenes/2022/03/23/16480261016982.jpg');
     background-size: cover;
     height: 100vh;
     background-position: center;
-      
+    margin: -33px;      
     `
     const Titulo = styled.h1`
     font-size: 45px;
@@ -139,14 +45,21 @@ export default function GameCreate(){
     background-color: #eeb56a;
     border-radius: 12px;
     width: 75px;
+    transition: background-color 1.3s;
+    transition: color 1.3s;
+    &:hover {
+    background-color:  #a8b454;
+    color: black;
+    border: 1px;
+    }
     `
-    const Form = styled.form`
-    background-color: rgba(255, 0, 0, 0.5);
+    const Form = styled.form`    
     opacity: 0.5;
     text-align: left;
     float: left;
     display: block;
     width: 100%;
+    margin: 35px;
     `
     const Input1 = styled.div`
     float: left;
@@ -189,10 +102,17 @@ export default function GameCreate(){
     font-size: 28px;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     `
+    const InputNombre = styled.input`
+    margin-left: 65px;
+    `
+
     const Imagen = styled.label`    
     color  : white ;
     font-size: 28px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    `
+    const InputImage = styled.input`
+    margin-left: 65px;
     `
 
     const Descripcion = styled.label` 
@@ -206,33 +126,168 @@ export default function GameCreate(){
     font-size: 28px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     `
+    const InputReleased = styled.input`
+    margin-left: 33px;
+    `
 
     const Rating = styled.label`    
     color  : white ;
     font-size:28px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     `
+    const InputRating = styled.input`
+    margin-left: 63px;
+    `
 
     const Plataforma = styled.label`    
     color  : white ;
     font-size: 28px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;    
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;     
     `
+    const InputPlat = styled.input`
+    margin-left: 26px;
+    `
+
+    const SelectPlat = styled.select`
+    margin-left: 152px;
+    `   
+
     const Generos = styled.label`    
     color  : white ;
     font-size: 28px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;    
     `
+    const InputGenres = styled.input`
+    margin-left: 60px;
+    `
+
+    const BtonCrear = styled.button`
+    display: inline-block;
+    margin-left: 152px;
+    margin-top: 20px;
+    cursor: pointer;
+    background-color: #eeb56a;
+    height: 40px;
+    width: 190px;
+    transition: background-color 2.3s;
+    transition: color 1.3s;
+    &:hover {
+    background-color:  #a8b454;
+    color: black;
+    border: 1px;
+    }
+    `
+    const SelectGenres = styled.select`
+    display: block;
+    margin-left: 152px;
+    `
 
 
+
+
+export default function GameCreate(){
+    const dispatch = useDispatch()
+    const history = useHistory();
+    const genres = useSelector((state) => state.genres);
+    const consolas = useSelector((state) => state.platforms);
+    const [errors, setErrors] = useState({});
+
+    const [input, setInput] = useState({
+        name:"",
+        image:"",
+        description:"",
+        released:"",
+        rating:"",
+        platforms:[],        
+        genres:[]
+    })
+
+
+    const handleChange = (e) =>{
+        setInput({
+            ...input,
+            [e.target.name] : e.target.value
+        })
+        setErrors(validate({
+            ...input,
+            [e.target.name]: e.target.value
+        }))
+        console.log(input);
+    }
+
+    
+
+    const handleSelect =(e)=>{
+        setInput({
+            ...input,
+            genres: [...input.genres, e.target.value]
+        })
+    }
+
+    const handleSelectPlatform = (e) =>{
+        setInput({
+            ...input,
+            platforms: [...input.platforms, e.target.value]
+        })
+    }
+
+    function handleSubmit(event) {
+        event.preventDefault();
+        const errors = validate(input);
+        setErrors(errors);
+        if (Object.keys(errors).length === 0) {
+          // Si no hay errores, llama a la acción de crear juego
+          dispatch(postVideogame(input));
+          history.push('/home');
+        }
+      }
+
+    // const handleSubmit = (e) =>{
+    //     e.preventDefault();
+    //     console.log(input);
+    //     dispatch(postVideogame(input))
+    //     alert("Game created!!!");
+    //     setInput({
+    //         name:"",
+    //         image:"",
+    //         description:"",
+    //         released:"",
+    //         rating:"",
+    //         platforms:[],            
+    //         genres:[]        
+    //     })
+    //     history.push('/home');
+    // }
+
+    function handleDelete(el){
+        setInput({
+            ...input,
+            genres: input.genres.filter(g => g !== el)
+        })
+    }
+    function handleDeletePLatforms(el){
+        setInput({
+            ...input,
+            platforms: input.platforms.filter(g => g !== el)
+        })
+    }
+
+
+
+    useEffect(() => {
+        dispatch(getGenres())
+        dispatch(getPlatforms())
+    },[dispatch])
+    
+    
     return(
         <Div>
-            <Titulo>Crea tu propio juego!!!</Titulo>
-            <Link to='/home'><Boton>Volver</Boton></Link>
+            <Titulo>Create your own videogame</Titulo>
+            <Link to='/home'><Boton>HOME</Boton></Link>
             <Form onSubmit={(e) => handleSubmit(e)}>
                 <Input1>
-                    <Nombre>Nombre:</Nombre>
-                    <input 
+                    <Nombre>Name:</Nombre>
+                    <InputNombre 
                     type="text"
                     value={input.name}
                     name="name"
@@ -243,8 +298,8 @@ export default function GameCreate(){
                     )}
                 </Input1>
                 <Input2>
-                    <Imagen>Imagen:</Imagen>
-                    <input 
+                    <Imagen>Image:</Imagen>
+                    <InputImage 
                     type="text" 
                     value={input.image}
                     name="image"
@@ -268,7 +323,7 @@ export default function GameCreate(){
                 </Input3>
                 <Input4>
                     <Released>Released:</Released>
-                    <input
+                    <InputReleased
                      type="text"
                      value={input.released}
                      name="released"
@@ -280,7 +335,7 @@ export default function GameCreate(){
                 </Input4>
                 <Input5>
                     <Rating>Rating:</Rating>
-                    <input
+                    <InputRating
                      type="number"
                      value={input.rating}
                      name="rating"
@@ -292,7 +347,7 @@ export default function GameCreate(){
                 </Input5>
                 <Input6>
                     <Plataforma>Platforms:</Plataforma>
-                    <input 
+                    <InputPlat 
                     type="text"
                     value={input.platforms}
                     name="platforms"
@@ -302,30 +357,30 @@ export default function GameCreate(){
                         <p className='error'>{errors.platforms}</p>
                     )}
                 </Input6>            
-                <select onChange={e => handleSelectPlatform(e)}>
+                <SelectPlat onChange={e => handleSelectPlatform(e)}>
                         {consolas.map((c) => (
                             <option value={c.name}>{c.name}</option>
                         ))}                        
-                </select>    
+                </SelectPlat>    
                 <div>
-                    <Generos>Generos:</Generos>
-                    <input
+                    <Generos>Genres:</Generos>
+                    <InputGenres
                      type="text"
-                     value={input.generos}
-                     name="generos"
+                     value={input.genres}
+                     name="genres"
                      onChange={(e) => handleChange(e)}
                       />
-                       {errors.generos && (
-                        <p className='error'>{errors.generos}</p>
+                       {errors.genres && (
+                        <p className='error'>{errors.genres}</p>
                        )}
                 </div>
-                <select onChange={(e) => handleSelect(e)} >
-                    {generos.map((g) =>(
+                <SelectGenres onChange={(e) => handleSelect(e)} >
+                    {genres.map((g) =>(
                         <option value={g.name}>{g.name}</option>
                     ))}
-                </select>
+                </SelectGenres>
                 
-                <button type="submit">Crear Juego</button>
+                <BtonCrear type="submit">CREATED GAME</BtonCrear>
             </Form>
             {input.platforms.map(el =>
                 <div className='divplatforms'>
@@ -333,7 +388,7 @@ export default function GameCreate(){
                     <button className='btonxplatforms' onClick={() =>handleDeletePLatforms(el)}>x</button>
                 </div>
                 )}
-            {input.generos.map(el => 
+            {input.genres.map(el => 
                 <div className='divgenero'>
                     <p>{el}</p>
                     <button className='botnX' onClick={() => handleDelete(el)}>x</button>

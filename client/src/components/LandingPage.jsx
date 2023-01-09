@@ -9,6 +9,7 @@ const DivLanding = styled.div`
     height:100vh;
     width: 100vw;
     background-size: cover;
+    margin: -25px
     
 `
 
@@ -21,6 +22,7 @@ const Boton = styled.button`
 box-shadow: 35px 10px 10px rgba(0, 0, 0, 0.5);
 background-color: #455919;
 border-radius: 0.5em;
+cursor: pointer;
 position: absolute;
   top: 50%;
   left: 50%;
@@ -33,9 +35,9 @@ position: absolute;
 export default function LandingPage(){
     return(
         <DivLanding>
-            <Titulo>Los Mejores Videojuegos</Titulo>
+            <Titulo>Play videogames</Titulo>
             <Link to='/home'>
-                <Boton>Ingresar</Boton>
+                <Boton>Let´s go</Boton>
             </Link>
         </DivLanding>
     )

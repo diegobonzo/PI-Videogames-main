@@ -18,6 +18,7 @@ color:  #a8b454;
 `
 
 
+
 export default function Card({name, image, genres, rating}){
     return(
         <StyleCard>

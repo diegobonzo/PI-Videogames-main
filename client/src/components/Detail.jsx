@@ -6,18 +6,9 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 
 
-export default function Detail({id}){
-
-    const dispatch = useDispatch();
-    const game = useSelector((state) => state.detail);
-    console.log(game);
-
-    useEffect(() =>{
-        dispatch(getDetail(id))//aca accedemos al id.
-    },[dispatch, id]) 
-
-    const DivPrincipal = styled.div`
+const DivPrincipal = styled.div`
     background-color: black;
+    margin: -25px
     `
 
     const Imagen = styled.img`
@@ -30,6 +21,8 @@ export default function Detail({id}){
     `
     const Descrption = styled.p`
     color:  #a8b454;
+    padding-left: 45px;
+    padding-right: 45px;
     `
     const Fecha = styled.h3`
     color:  #a8b454;
@@ -37,6 +30,38 @@ export default function Detail({id}){
     const Rating = styled.h3`
     color:  #a8b454;
     `
+    const Volver = styled.button`
+    background-color:#383126;
+    color:  #a8b454;
+    cursor: pointer;
+    transition: background-color 1.3s;
+    transition: color 1.3s;    
+    &:hover {
+    background-color:  #a8b454;
+    color: black;
+    border: 1px;
+    }
+    `
+    const Genero = styled.h2`
+    color:  #a8b454;
+    `
+    const Platforms = styled.h3`
+    color:  #a8b454;
+    `
+
+
+
+export default function Detail({id}){
+
+    const dispatch = useDispatch();
+    const game = useSelector((state) => state.detail);
+    console.log(game);
+
+    useEffect(() =>{
+        dispatch(getDetail(id))//aca accedemos al id.
+    },[dispatch, id]) 
+
+    
 
     return(
         <DivPrincipal>
@@ -47,15 +72,14 @@ export default function Detail({id}){
                 <div>
                     <Name>{game.map(el=>el.name)}</Name>
                     <Imagen src={ game.map(el=>el.image)}  alt="img" />
-                    {/* <h2>Genero: {game.genres.map(el => el.name)}</h2> */}
+                    <Genero>Genres: {game.map(el => el.genres + ' ')}</Genero>
                     <Descrption>{game.map(el=>el.description)}</Descrption>
-                    <Fecha>Lanzamiento {game.map(el=>el.released)}</Fecha>
+                    <Fecha>Release date {game.map(el=>el.released)}</Fecha>
                     <Rating>Raiting {game.map(el=>el.rating)}</Rating>
-                    {/* <h3>Consolas: {game.platforms.map(el => el.platform.name)}</h3> */}
-
+                    <Platforms>Plataforms: {game.map(el => el.platforms + ' ')}</Platforms>
                 </div>) 
             }
-            <Link to='/home'><button>Volver</button></Link>
+            <Link to='/home'><Volver>Home</Volver></Link>
         </DivPrincipal>
     )
 
