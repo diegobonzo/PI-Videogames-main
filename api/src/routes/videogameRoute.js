@@ -47,12 +47,12 @@ router.get("/:id", async (req,res,next) =>{
 
 
 router.post("/", async (req,res,next) => {
-        let { name,image,description,released,rating,platforms,createdInDb,generos } = req.body;
+        let { name,image,description,released,rating,platforms,createdInDb,genres } = req.body;
 
         let newGame = await Videogame.create({
             name,image,description,released,rating,platforms,createdInDb
         });    
-        let genreDb = await Genero.findAll({ where: { name: generos } })
+        let genreDb = await Genero.findAll({ where: { name: genres } })
         newGame.addGenero(genreDb);        
         res.status(200).send("El juego se creo con exito");    
 });

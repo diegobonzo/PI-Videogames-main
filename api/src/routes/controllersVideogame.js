@@ -80,7 +80,7 @@ const getAllVideogame = async () => {
     return infoTotal;
 };
 
-const updateGame = async ({id,name,image,released,rating,description,generos,platforms}) => {
+const updateGame = async ({id,name,image,released,rating,description,genres,platforms}) => {
     let game = await Videogame.findByPk(id);
     if(!game) return {error:"Game not found"};
 
@@ -90,7 +90,7 @@ const updateGame = async ({id,name,image,released,rating,description,generos,pla
     game.released = released;
     game.rating = rating;
     game.description = description;
-    game.generos = generos;
+    game.genres = genres;
     game.platforms = platforms;
     return game;
 };
